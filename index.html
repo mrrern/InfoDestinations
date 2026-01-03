@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoteles en Isla de Margarita | Ofertas y Reservas | InfoDestinations</title>
+    <meta name="description" content="Encuentra los mejores hoteles en la Isla de Margarita. Compara precios, mira fotos y reserva tu estadía ideal. Planes todo incluido, hoteles de lujo y económicos.">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-blue: #0056b3; /* Azul corporativo conservado pero vibrante */
+            --accent-gold: #ffc107;   /* Para estrellas y ofertas */
+            --bg-light: #f4f7f6;      /* Fondo moderno, no blanco puro */
+            --text-dark: #333;
+            --text-grey: #666;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            /* Aquí iría la imagen del logo real */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-grey);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--primary-blue); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(0,86,179,0.7), rgba(0,86,179,0.7)), url('https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: var(--text-grey);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- GRID DE HOTELES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hotels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding-bottom: 50px;
+        }
+
+        /* --- TARJETA DE HOTEL (CARD) --- */
+        .hotel-card {
+            background: var(--white);
+            border-radius: 16px; /* Bordes redondeados modernos */
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card-image {
+            height: 200px;
+            background-color: #ddd;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-gold);
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .hotel-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .hotel-location {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- SECCIÓN ESTRATÉGICA PARA ADS (ICONOS) --- */
+        .amenities {
+            display: flex;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .icon-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-grey);
+            font-size: 1.1rem;
+            cursor: help; /* Muestra interrogación al pasar el mouse */
+            position: relative;
+        }
+
+        .icon-box:hover { color: var(--primary-blue); }
+        
+        /* Tooltip simple */
+        .icon-box::after {
+            content: attr(data-tooltip); /* Lee el texto del atributo */
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        
+        .icon-box:hover::after { opacity: 1; }
+
+        /* --- PRECIO Y BOTÓN --- */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .price {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+        }
+
+        .price strong {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            display: block;
+        }
+
+        .btn-reserve {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-reserve:hover { background-color: #004494; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* Simplificado para demo */
+            .hero h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container container">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="InfoDestinations Logo" style="height: 40px; margin-right: 10px;">
+            </a>
+            <nav class="nav-links">
+                <a href="#">Margarita</a>
+                <a href="#">Mérida</a>
+                <a href="#">Morrocoy</a>
+                <a href="#">Ofertas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Descubre Isla de Margarita</h1>
+            <p>Los mejores hoteles con planes a tu medida</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <p class="intro-text">
+            La Perla del Caribe te espera con una increíble variedad de opciones de alojamiento. Desde resorts de lujo con todo incluido hasta posadas acogedoras, encuentra el lugar perfecto para tus vacaciones soñadas en la Isla de Margarita.
+        </p>
+        <div class="hotels-grid">
+
+            <article class="hotel-card">
+                <div class="card-image">
+                    <img src="https://infodestinations.com/hoteles_imagenes/fotos/m/hesperia_isla_margarita.jpg" alt="Hesperia Isla Margarita">
+                    <span class="badge">5 Estrellas</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="hotel-name">Hesperia Isla Margarita</h2>
+                    <p class="hotel-location"><i class="fa-solid fa-location-dot"></i> Playa Puerto Cruz</p>
+                    
+                    <div class="amenities">
+                        <div class="icon-box" data-tooltip="Bar & Cócteles">
+                            <i class="fa-solid fa-martini-glass-citrus"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Gastronomía Ilimitada">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Piscinas">
+                            <i class="fa-solid fa-person-swimming"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Frente al Mar">
+                            <i class="fa-solid fa-umbrella-beach"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="WiFi Gratis">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="price">
+                            Desde
+                            <strong>$70</strong>
+                            <small>por noche</small>
+                        </div>
+                        <a href="detalles.html" class="btn-reserve">Ver Oferta</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="card-image">
+                    <img src="https://www.infodestinations.com/hoteles_imagenes/fotos/m/wyndham_margarita_concorde.jpg" alt="Wyndham Concorde">
+                    <span class="badge">5 Estrellas</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="hotel-name">Wyndham Concorde Resort</h2>
+                    <p class="hotel-location"><i class="fa-solid fa-location-dot"></i> Porlamar</p>
+                    
+                    <div class="amenities">
+                        <div class="icon-box" data-tooltip="Desayuno Incluido">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Restaurante a la carta">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Piscina Panorámica">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Gimnasio">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="WiFi Alta Velocidad">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="price">
+                            Desde
+                            <strong>$85</strong>
+                            <small>por noche</small>
+                        </div>
+                        <a href="detalles.html" class="btn-reserve">Ver Oferta</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="card-image">
+                    <img src="https://www.infodestinations.com/hoteles_imagenes/fotos/m/sunsol_isla_caribe.jpg" alt="Sunsol Isla Caribe">
+                    <span class="badge">4 Estrellas</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="hotel-name">Sunsol Isla Caribe</h2>
+                    <p class="hotel-location"><i class="fa-solid fa-location-dot"></i> Playa El Tirano</p>
+                    
+                    <div class="amenities">
+                        <div class="icon-box" data-tooltip="Bebidas Nacionales">
+                            <i class="fa-solid fa-beer-mug-empty"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Snacks y Buffet">
+                            <i class="fa-solid fa-burger"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Club de Playa">
+                            <i class="fa-solid fa-umbrella-beach"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Entretenimiento">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Aire Acondicionado">
+                            <i class="fa-solid fa-snowflake"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="price">
+                            Desde
+                            <strong>$99</strong>
+                            <small>por noche</small>
+                        </div>
+                        <a href="detalles.html" class="btn-reserve">Ver Oferta</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Hotel Costa Linda">
+                    <span class="badge">4 Estrellas</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="hotel-name">Hotel Costa Linda</h2>
+                    <p class="hotel-location"><i class="fa-solid fa-location-dot"></i> Playa El Agua</p>
+                    
+                    <div class="amenities">
+                        <div class="icon-box" data-tooltip="Acceso a Playa">
+                            <i class="fa-solid fa-umbrella-beach"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Restaurante">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Piscina Familiar">
+                            <i class="fa-solid fa-person-swimming"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Actividades">
+                            <i class="fa-solid fa-volleyball"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="WiFi en Lobby">
+                            <i class="fa-solid fa-wifi"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="price">
+                            Desde
+                            <strong>$60</strong>
+                            <small>por noche</small>
+                        </div>
+                        <a href="detalles.html" class="btn-reserve">Ver Oferta</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="hotel-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbb5eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Margarita Princess">
+                    <span class="badge">5 Estrellas</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="hotel-name">Margarita Princess</h2>
+                    <p class="hotel-location"><i class="fa-solid fa-location-dot"></i> Pampatar</p>
+                    
+                    <div class="amenities">
+                        <div class="icon-box" data-tooltip="Casino y Shows">
+                            <i class="fa-solid fa-dice"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Cocina Gourmet">
+                            <i class="fa-solid fa-bell-concierge"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Piscina Infinity">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Spa & Wellness">
+                            <i class="fa-solid fa-spa"></i>
+                        </div>
+                        <div class="icon-box" data-tooltip="Valet Parking">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="price">
+                            Desde
+                            <strong>$110</strong>
+                            <small>por noche</small>
+                        </div>
+                        <a href="detalles.html" class="btn-reserve">Ver Oferta</a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+</body>
+</html>
